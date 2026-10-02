@@ -7,15 +7,18 @@
 
 /* ————————————————————————————————————————————————————————————————————————————————————————————————————————————————— */
 
-typedef char *cstr_t;
-typedef const char *ccstr_t;
-
 typedef struct string_t {
-	cstr_t cstr;
+	char *cstr;
 	size_t len, alloc;
 } str_t;
 
 /* ————————————————————————————————————————————————————————————————————————————————————————————————————————————————— */
+
+str_t str_init	(const char *cstr);
+str_t str_n_init(const char *cstr, const size_t len);
+
+void str_pack(str_t *str);
+void str_free(str_t *str);
 
 /* —— strlen() —————————————————————————————————————————————————— */
 
