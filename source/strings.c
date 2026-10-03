@@ -33,11 +33,6 @@ private void str_resize(str_t *const str, const len_t new_len) {
 	str->cstr[new_len + 1] = '\0';
 }
 
-private void str_cset(const str_t *const dst, const char *const src) {
-	str_resize(dst, strlen(src));
-	memcpy(dst->cstr, src, dst->len);
-}
-
 /* ————————————————————————————————————————————————————————————————————————————————————————————————————————————————— */
 /* ————————————————————————————————————————————————————————————————————————————————————————————————————————————————— */
 
@@ -65,5 +60,26 @@ public void str_free(str_t *const str) {
 
 public len_t str_len(const str_t *const str) { return str->len; }
 public len_t str_n_len(const str_t *const str, len_t len) { return MIN(str->len, len); }
+
+/* ————————————————————————————————————————————————————————————————————————————————————————————————————————————————— */
+
+public void str_n_cpy(str_t *dst, const str_t *src, len_t len) {
+	if (dst == NULL) exit(-1);
+
+	str_resize(dst, len);
+	memcpy(dst->cstr, src, len);
+}
+
+public void str_cpy(str_t *const dst, const str_t *const src) { str_n_cpy(dst, src, src->len); }
+
+/* ——————————————————————————————————————————————————————————— */
+
+public str_t str_n_dup(const str_t *str, len_t len) {
+	str_t string = {0};
+	str_n_cpy(&string, str, len);
+	return string;
+}
+
+public str_t str_dup(const str_t *str) { return str_n_dup(str, str->len); }
 
 /* ————————————————————————————————————————————————————————————————————————————————————————————————————————————————— */
