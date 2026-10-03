@@ -14,7 +14,7 @@ typedef ssize_t	idx_t, count_t;
 
 typedef struct string_t {
 	char *cstr;
-	len_t len, alloc;
+	len_t len, _alloc;
 } str_t;
 
 #pragma pack()
@@ -49,9 +49,10 @@ int str_n_cmp(const str_t *str1, const str_t *str2, len_t len);
 
 /* —— strchr() —————————————————————————————————————————————————— */
 
-idx_t str_chr	 (const str_t *str, int c);
-idx_t str_r_chr  (const str_t *str, int c);
-idx_t str_chr_nul(const str_t *str, int c);
+idx_t str_chr	 (const str_t *str, char chr);
+idx_t str_r_chr	 (const str_t *str, char chr);
+idx_t str_chr_nul(const str_t *str, char chr);
+idx_t str_n_chr	 (const str_t *str, char chr, const len_t len);
 
 /* —— strstr() —————————————————————————————————————————————————— */
 
