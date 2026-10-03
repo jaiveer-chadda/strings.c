@@ -2,6 +2,7 @@
 
 #include <stdlib.h> // malloc(), free()
 #include <string.h> // memcpy(), strlen()
+#include <stdbool.h> // bool, true, false
 
 #include "strings.h"
 
@@ -111,7 +112,7 @@ public int str_n_cmp(const str_t *str1, const str_t *str2, const len_t len) {
 	return 0;
 }
 
-/* ————————————————————————————————————————————————————————————————————————————————————————————————————————————————— */
+/* —— strchr() ————————————————————————————————————————————————————————————————————————————————————————————————————— */
 
 private idx_t s__strchr(const str_t *str, char chr, const idx_t maxlen, const idx_t on_failure) {
 	for (idx_t idx = 0; idx < (idx_t)str->len; idx++) {
@@ -120,6 +121,8 @@ private idx_t s__strchr(const str_t *str, char chr, const idx_t maxlen, const id
 
 	return on_failure;
 }
+
+/* ——————————————————————————————————————————————————————————— */
 
 public idx_t str_chr(const str_t *str, char chr) {
 	return s__strchr(str, str->len, chr, -1);
@@ -133,11 +136,54 @@ public idx_t str_n_chr(const str_t *str, char chr, const len_t len) {
 	return s__strchr(str, len, chr, str->len);
 }
 
+/* ——————————————————————————————————————————————————————————— */
+
 public idx_t str_r_chr(const str_t *str, char chr) {
 	for (idx_t idx = str->len - 1; idx >= 0; idx--) {
 		if (str->cstr[idx] == chr) return idx;
 	}
 	return -1;
+}
+
+/* ————————————————————————————————————————————————————————————————————————————————————————————————————————————————— */
+
+#define TOLOWER_IF(chr, cond) (				 \
+	((cond) && 'A' <= (chr) && (chr) <= 'Z') \
+		? (chr) + ('a' - 'A')				 \
+		: (chr)								 \
+)
+
+private bool s__strstr_from_idx(const str_t *haystack, const str_t *needle, const idx_t hsi, const bool igncase) {
+	for (idx_t i = 0; i < (idx_t)needle->len; i++) {
+		const char hay = haystack->cstr[hsi + i];
+		const char ned = needle->cstr[i];
+
+		if (TOLOWER_IF(hay, igncase) != TOLOWER_IF(ned, igncase)) return false;
+	}
+
+	return true;
+}
+
+private bool s__strnstr(const str_t *haystack, const str_t *needle, const len_t len, const bool igncase) {
+	const idx_t max_idx = MIN(len, haystack->len - needle->len);
+
+	for (idx_t i = 0; i < max_idx; i++) {
+		if (s__strstr_from_idx(haystack, needle, i, igncase)) return i;
+	}
+
+	return -1;
+}
+
+public idx_t str_str(const str_t *haystack, const str_t *needle) {
+	return s__strnstr(haystack, needle, haystack->len, false);
+}
+
+public idx_t str_n_str(const str_t *haystack, const str_t *needle, const len_t len) {
+	return s__strnstr(haystack, needle, len, false);
+}
+
+public idx_t str_case_str(const str_t *haystack, const str_t *needle) {
+	return s__strnstr(haystack, needle, haystack->len, true);
 }
 
 /* ————————————————————————————————————————————————————————————————————————————————————————————————————————————————— */
