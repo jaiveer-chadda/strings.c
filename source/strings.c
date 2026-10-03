@@ -102,7 +102,7 @@ public int str_cmp(const str_t *str1, const str_t *str2) {
 }
 
 public int str_n_cmp(const str_t *str1, const str_t *str2, const len_t len) {
-	const size_t iter_len = MIN(MIN(str1->len, str2->len), len);
+	const size_t iter_len = MIN(len, MIN(str1->len, str2->len));
 
 	for (size_t i = 0; i < iter_len; i++) {
 		if (str1->cstr[i] < str2->cstr[i]) return -1;
@@ -114,8 +114,10 @@ public int str_n_cmp(const str_t *str1, const str_t *str2, const len_t len) {
 
 /* —— strchr() ————————————————————————————————————————————————————————————————————————————————————————————————————— */
 
-private idx_t s__strchr(const str_t *str, char chr, const idx_t maxlen, const idx_t on_failure) {
-	for (idx_t idx = 0; idx < (idx_t)str->len; idx++) {
+private idx_t s__strchr(const str_t *str, char chr, const len_t maxlen, const idx_t on_failure) {
+	const idx_t max_idx = MIN(maxlen, str->len);
+
+	for (idx_t idx = 0; idx < max_idx; idx++) {
 		if (str->cstr[idx] == chr) return idx;
 	}
 
@@ -125,15 +127,15 @@ private idx_t s__strchr(const str_t *str, char chr, const idx_t maxlen, const id
 /* ——————————————————————————————————————————————————————————— */
 
 public idx_t str_chr(const str_t *str, char chr) {
-	return s__strchr(str, str->len, chr, -1);
+	return s__strchr(str, chr, str->len, -1);
 }
 
 public idx_t str_chr_nul(const str_t *str, char chr) {
-	return s__strchr(str, str->len, chr, str->len);
+	return s__strchr(str, chr, str->len, str->len);
 }
 
 public idx_t str_n_chr(const str_t *str, char chr, const len_t len) {
-	return s__strchr(str, len, chr, str->len);
+	return s__strchr(str, chr, len, str->len);
 }
 
 /* ——————————————————————————————————————————————————————————— */
