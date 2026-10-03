@@ -145,13 +145,15 @@ public idx_t str_r_chr(const str_t *str, char chr) {
 	return -1;
 }
 
-/* ————————————————————————————————————————————————————————————————————————————————————————————————————————————————— */
+/* —— strstr() ————————————————————————————————————————————————————————————————————————————————————————————————————— */
 
 #define TOLOWER_IF(chr, cond) (				 \
 	((cond) && 'A' <= (chr) && (chr) <= 'Z') \
 		? (chr) + ('a' - 'A')				 \
 		: (chr)								 \
 )
+
+/* ——————————————————————————————————————————————————————————— */
 
 private bool s__strstr_from_idx(const str_t *haystack, const str_t *needle, const idx_t hsi, const bool igncase) {
 	for (idx_t i = 0; i < (idx_t)needle->len; i++) {
@@ -174,6 +176,8 @@ private bool s__strnstr(const str_t *haystack, const str_t *needle, const len_t 
 	return -1;
 }
 
+/* ——————————————————————————————————————————————————————————— */
+
 public idx_t str_str(const str_t *haystack, const str_t *needle) {
 	return s__strnstr(haystack, needle, haystack->len, false);
 }
@@ -184,6 +188,10 @@ public idx_t str_n_str(const str_t *haystack, const str_t *needle, const len_t l
 
 public idx_t str_case_str(const str_t *haystack, const str_t *needle) {
 	return s__strnstr(haystack, needle, haystack->len, true);
+}
+
+public idx_t str_n_case_str(const str_t *haystack, const str_t *needle, const len_t len) {
+	return s__strnstr(haystack, needle, len, true);
 }
 
 /* ————————————————————————————————————————————————————————————————————————————————————————————————————————————————— */

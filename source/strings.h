@@ -56,9 +56,10 @@ idx_t str_n_chr	 (const str_t *str, char chr, const len_t len);
 
 /* —— strstr() —————————————————————————————————————————————————— */
 
-idx_t str_str	  (const str_t *haystack, const str_t *needle);
-idx_t str_n_str	  (const str_t *haystack, const str_t *needle, const len_t len);
-idx_t str_case_str(const str_t *haystack, const str_t *needle);
+idx_t str_str		(const str_t *haystack, const str_t *needle);
+idx_t str_n_str		(const str_t *haystack, const str_t *needle, const len_t len);
+idx_t str_case_str	(const str_t *haystack, const str_t *needle);
+idx_t str_n_case_str(const str_t *haystack, const str_t *needle, const len_t len);
 
 /* —— strcat() —————————————————————————————————————————————————— */
 
