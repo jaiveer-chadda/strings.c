@@ -95,6 +95,18 @@ public str_t str_n_dup(const str_t *str, len_t len) {
 	return string;
 }
 
+/* —— strcat() ————————————————————————————————————————————————————————————————————————————————————————————————————— */
+
+void str_cat(str_t *dst, const str_t *src) {
+	str_n_cat(dst, src, src->len);
+}
+
+void str_n_cat(str_t *dst, const str_t *src, len_t len) {
+	str_resize(dst, dst->len + MIN(len, src->len));
+	memcpy(dst->cstr + dst->len, src, dst->len);
+}
+
+/* ————————————————————————————————————————————————————————————————————————————————————————————————————————————————— */
 /* —— strcmp() ————————————————————————————————————————————————————————————————————————————————————————————————————— */
 
 public int str_cmp(const str_t *str1, const str_t *str2) {
