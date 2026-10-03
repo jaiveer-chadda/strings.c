@@ -83,3 +83,18 @@ public str_t str_n_dup(const str_t *str, len_t len) {
 public str_t str_dup(const str_t *str) { return str_n_dup(str, str->len); }
 
 /* ————————————————————————————————————————————————————————————————————————————————————————————————————————————————— */
+
+public int str_n_cmp(const str_t *str1, const str_t *str2, const len_t len) {
+	const size_t iter_len = MIN(MIN(str1->len, str2->len), len);
+
+	for (size_t i; i < iter_len; i++) {
+		if (str1->cstr[i] < str2->cstr[i]) return -1;
+		if (str1->cstr[i] > str2->cstr[i]) return  1;
+	}
+
+	return 0;
+}
+
+public int str_cmp(const str_t *str1, const str_t *str2) { return str_n_cmp(str1, str2, str1->len); }
+
+/* ————————————————————————————————————————————————————————————————————————————————————————————————————————————————— */
